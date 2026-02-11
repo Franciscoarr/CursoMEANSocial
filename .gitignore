@@ -1,7 +1,7 @@
 # Ignorar dependencias
 node_modules/
 api/node_modules/
-instlacion-angular/node_modules/
+client/node_modules/
 
 # Ignorar variables de entorno (claves secretas)
 .env
