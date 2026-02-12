@@ -1,13 +1,30 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, DoCheck, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterOutlet, RouterModule } from '@angular/router';
+import { UserService } from './service/user';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [CommonModule, RouterOutlet, RouterModule],
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrl: './app.css',
+  providers: [UserService]
 })
-export class App {
-  public title = 'NGSOCIAL';
+export class App implements OnInit, DoCheck {
+  public title: string;
+  public identity: any;
+
+  constructor(private _userService:UserService){
+    this.title = 'NGSOCIAL';
+  }
+
+  ngOnInit(){
+    this.identity = this._userService.getIdentity();
+  }
+
+  ngDoCheck(){
+    this.identity = this._userService.getIdentity();
+  }
+
 }

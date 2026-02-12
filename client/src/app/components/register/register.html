@@ -1,1 +1,58 @@
-<h1>{{title}}</h1>
+<div class="col-lg-5">
+    <h1 class="h1-strong">{{title}}</h1>
+    <form #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm)" class="col-lg-12">
+        <p>
+            <label>Nombre</label>
+            <input type="text" name="name" #name="ngModel" [(ngModel)]="user.name" class="form-control" required />
+            @if (!name.valid && name.touched) {
+                <div class="text-danger">
+                <span>El nombre <strong>es obligatorio</strong></span>
+                </div>
+            }
+        </p>
+
+        <p>
+            <label>Apellidos</label>
+            <input type="text" name="surname" #surname="ngModel" [(ngModel)]="user.surname" class="form-control" required />
+            @if (!surname.valid && surname.touched) {
+                <div class="text-danger">
+                <span>Los apellidos <strong>son obligatorios</strong></span>
+                </div>
+            }
+        </p>
+
+        <p>
+            <label>Apodo</label>
+            <input type="text" name="nick" #nick="ngModel" [(ngModel)]="user.nick" class="form-control" required />
+            @if (!nick.valid && nick.touched) {
+                <div class="text-danger">
+                <span>El apodo <strong>es obligatorio</strong></span>
+                </div>
+            }
+        </p>
+
+        <p>
+            <label>Correo electrónico</label>
+            <input type="email" name="email" #email="ngModel" [(ngModel)]="user.email" class="form-control" required 
+            pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+            placeholder="example@domain.com" required/>
+            @if (!email.valid && email.touched) {
+                <div class="text-danger">
+                <span>El correo electrónico <strong>no es válido</strong></span>
+                </div>
+            }
+        </p>
+
+        <p>
+            <label>Contraseña</label>
+            <input type="password" name="password" #password="ngModel" [(ngModel)]="user.password" class="form-control" required />
+            @if (!password.valid && password.touched) {
+                <div class="text-danger">
+                <span>La contraseña <strong>es obligatoria</strong></span>
+                </div>
+            }
+        </p>
+
+        <button type="submit" [disabled]="registerForm.invalid" class="btn btn-success btn-lg float-end">Registrar</button>
+    </form>
+</div>

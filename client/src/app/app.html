@@ -8,9 +8,10 @@
       </button>
       
       <div class="collapse navbar-collapse" id="navbarNav">
+        @if(identity) {
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a [routerLink]="['/home']" routerLinkActive="active" class="nav-link">
               <i class="fa-solid fa-house"> Inicio</i>
             </a>
           </li>
@@ -27,6 +28,24 @@
             </a>
           </li>
         </ul>
+        } 
+        @if(!identity) {
+        <ul class="nav navbar navbar-nav navbar-right">
+          <li class="nav-item">
+            <a [routerLink]="['/login']" routerLinkActive="active" class="nav-link">
+              <i class="fa-solid fa-arrow-right-to-bracket"> Login</i>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a [routerLink]="['/register']" routerLinkActive="active" class="nav-link">
+              <i class="fa-solid fa-circle-user"> Registro</i>
+            </a>
+          </li>
+        </ul>
+        }
+
+
       </div>
     </div>
   </nav>
