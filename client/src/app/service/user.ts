@@ -3,6 +3,7 @@ import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { Observable } from 'rxjs';
 import { User } from '../models/user';
 import { isPlatformBrowser } from '@angular/common';
+import { application } from 'express';
 
 @Injectable({
   providedIn: 'root',
@@ -11,6 +12,7 @@ export class UserService {
   url = 'http://localhost:3800/api/'
   public identity: any;
   public token: any;
+  public stats: any;
 
   constructor(private http: HttpClient, @Inject(PLATFORM_ID) private platformId: Object) {}
 
@@ -39,7 +41,7 @@ export class UserService {
     return this.identity;
   }
 
-  getToken(): string | null {
+  getToken(): string {
     if (isPlatformBrowser(this.platformId)) {
       const token = localStorage.getItem('token');
       this.token = token ?? null;
@@ -47,6 +49,27 @@ export class UserService {
       this.token = null;
     }
     return this.token;
+  }
+
+  getStats(): any{
+    if (isPlatformBrowser(this.platformId)) { // Solo navegador
+      const stats = JSON.parse(localStorage.getItem('stats') || 'null');
+      this.stats = stats ?? null;
+    } else {
+      this.stats = null;
+    }
+    return this.stats;
+  }
+
+  getCounters(userId: string): Observable<any>{
+    let headers = new HttpHeaders().set('Content-Type', 'application/json').set('Authorization',this.getToken());
+
+    if (userId != null){
+      return this.http.get(this.url +'counters/'+userId, {headers: headers});
+    }else{
+      return this.http.get(this.url +'counters', {headers: headers});
+    }
+    
   }
 
 }

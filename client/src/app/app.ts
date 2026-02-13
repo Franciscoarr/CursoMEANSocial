@@ -1,6 +1,6 @@
 import { Component, DoCheck, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterOutlet, RouterModule } from '@angular/router';
+import { RouterOutlet, RouterModule, Router, ActivatedRoute } from '@angular/router';
 import { UserService } from './service/user';
 
 @Component({
@@ -15,7 +15,7 @@ export class App implements OnInit, DoCheck {
   public title: string;
   public identity: any;
 
-  constructor(private _userService:UserService){
+  constructor(private _userService:UserService, private _router:Router, private _route:ActivatedRoute){
     this.title = 'NGSOCIAL';
   }
 
@@ -25,6 +25,12 @@ export class App implements OnInit, DoCheck {
 
   ngDoCheck(){
     this.identity = this._userService.getIdentity();
+  }
+
+  logout(){
+    localStorage.clear();
+    this.identity = null;
+    this._router.navigate(['/home'])
   }
 
 }

@@ -55,9 +55,7 @@ export class Login implements OnInit{
             localStorage.setItem('identity', JSON.stringify(identity));
 
             // Segunda petición → obtener token usando loginData
-            this.getToken(loginData);
-
-            this._router.navigate(['/home']);
+            this.getToken(loginData, res.user._id);
           }
 
         },
@@ -68,12 +66,15 @@ export class Login implements OnInit{
     }
   }
 
-  getToken(loginData: any){
+  getToken(loginData: any, userId: string){
     this._userService.signUp(loginData as any, true).subscribe({
       next: (res: any) => {
         if(res.token){
           localStorage.setItem('token', res.token); // PERSISTIR TOKEN
-          this.toast.success('Login correcto');
+
+          // Conseguir los contadores o estadísticas del usuario
+          this.getCounters(userId);
+
         } else {
           this.toast.error('Error al obtener token');
         }
@@ -81,6 +82,20 @@ export class Login implements OnInit{
       error: (error) => {
         console.log(error);
         this.toast.error('Error al obtener token');
+      }
+    });
+  }
+
+  getCounters(userId: string){
+    this._userService.getCounters(userId).subscribe({
+     next: (res: any) => {
+        localStorage.setItem('stats', JSON.stringify(res))
+        this.toast.success('Login correcto');
+        this._router.navigate(['/home']);
+      },
+      error: (error) => {
+        console.log(error);
+        this.toast.error('Error al obtener las estadísticas');
       }
     });
   }

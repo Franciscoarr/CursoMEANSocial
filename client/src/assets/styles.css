@@ -33,3 +33,11 @@
 .navigation .navbar a:hover{
     background: #cc1717 !important;
 }
+
+.navigation .navbar .dropdown a:hover{
+    background: #eee !important;
+}
+
+.navigation .navbar .dropdown-menu *{
+    color:black !important;
+}
