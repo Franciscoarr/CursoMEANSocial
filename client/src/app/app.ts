@@ -2,6 +2,7 @@ import { Component, DoCheck, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet, RouterModule, Router, ActivatedRoute } from '@angular/router';
 import { UserService } from './service/user';
+import { UploadService } from './service/upload';
 
 @Component({
   selector: 'app-root',
@@ -14,9 +15,11 @@ import { UserService } from './service/user';
 export class App implements OnInit, DoCheck {
   public title: string;
   public identity: any;
+  public url: string;
 
-  constructor(private _userService:UserService, private _router:Router, private _route:ActivatedRoute){
+  constructor(private _userService:UserService, private _router:Router, private _route:ActivatedRoute, private _uploadService:UploadService){
     this.title = 'NGSOCIAL';
+    this.url = this._uploadService.url;
   }
 
   ngOnInit(){
