@@ -3,8 +3,9 @@ import { Login } from './components/login/login';
 import { Register } from './components/register/register';
 import { Home } from './components/home/home';
 import { UserEdit } from './components/user-edit/user-edit';
+import { Users } from './components/users/users';
+
 import { NgModule } from '@angular/core';
-import { App } from './app';
 import { FormsModule } from '@angular/forms'; 
 import { provideHttpClient } from '@angular/common/http'; 
 import { BrowserModule } from '@angular/platform-browser';
@@ -16,6 +17,8 @@ export const routes: Routes = [
   { path: 'register', component: Register},
   { path: 'home', component: Home, },
   { path: 'mis-datos', component: UserEdit, },
+  { path: 'gente/:page', component: Users, },
+  { path: 'gente', component: Users, },
   { path: '**', redirectTo: '', pathMatch: 'full'}
 ];
 

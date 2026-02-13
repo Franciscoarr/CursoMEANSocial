@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { User } from '../../models/user';
@@ -20,7 +20,7 @@ export class UserEdit implements OnInit{
   public token;
   public url;
 
-  constructor(private _router: Router, private _route: ActivatedRoute, private _userService: UserService, private _uploadService: UploadService, private toast: ToastrService, private cdr: ChangeDetectorRef){
+  constructor(private _router: Router, private _route: ActivatedRoute, private _userService: UserService, private _uploadService: UploadService, private toast: ToastrService){
     this.title = 'Actualizar mis datos';
     this.user = this._userService.getIdentity();
     this.identity = this.user;
