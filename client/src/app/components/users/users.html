@@ -1,3 +1,55 @@
 <div class="col-lg-5">
     <h1 class="h1-strong">{{title}}</h1>
+
+    <div class="people">
+        <div class="item-user">
+        @for (user of users; track user._id) {
+            <div class="card card-default">
+                <div class="panel-body">
+                    <div class="image-user float-start">
+                        <a href="#">
+                            @if (user.image) {
+                                <img src="{{ url + 'get-image-user/' + user.image }}" class="avatar-user" onerror="this.src='assets/user.png'"/>
+                            } @else {
+                                <div class="avatar-initials">
+                                    {{ user.name.charAt(0).toUpperCase() }}{{ user.surname.charAt(0).toUpperCase() }}
+                                </div>
+                            }
+                        </a>
+                    </div>
+                    <div class="user-name float-start">
+                        <p class="name-surname">
+                            <a href="#">
+                            {{ user.name }} {{ user.surname }}
+                            </a>
+                        </p>
+                        <p class="nickname">{{user.nick}}</p>    
+                    </div>
+
+                    @if (user._id != identity._id){
+                    <div class="follow-button float-end">
+                        @if(follows.indexOf(user._id) >= 0) {
+                        <button class="btn btn-success following"
+                                (mouseenter)="mouseEnter(user._id)"
+                                (mouseleave)="mouseLeave(user._id)"
+                                (click)="unfollowUser(user._id)"
+                                [class.btn-danger]="followUserOver == user._id" >
+                            @if(followUserOver == user._id) {Dejar de seguir} @else {Siguiendo}
+                        </button>
+                        } @else {
+                        <button class="btn btn-primary" (click)="followUser(user._id)">
+                            Seguir
+                        </button>
+                        }
+                    </div>
+                    }
+                </div>    
+            </div>
+        }
+        <div class="pagination mt-3">
+            <a [routerLink]="['/gente', prev_page]" class="btn btn-primary me-2">Anterior</a>
+            <a [routerLink]="['/gente', next_page]" class="btn btn-primary">Siguiente</a>
+        </div>
+        </div>
+    </div>
 </div>

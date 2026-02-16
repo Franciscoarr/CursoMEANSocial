@@ -18,7 +18,7 @@ export const routes: Routes = [
   { path: 'home', component: Home, },
   { path: 'mis-datos', component: UserEdit, },
   { path: 'gente/:page', component: Users, },
-  { path: 'gente', component: Users, },
+  { path: 'gente', redirectTo: 'gente/1', pathMatch: 'full' },
   { path: '**', redirectTo: '', pathMatch: 'full'}
 ];
 

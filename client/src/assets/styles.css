@@ -57,3 +57,64 @@
 .navigation .navbar .dropdown-menu *{
     color:black !important;
 }
+
+.item-user .image-user {
+    width: 75px;        
+    height: 75px;       
+    border-radius: 50%; 
+    overflow: hidden;
+    margin-top: 9px;
+    margin-right: 15px;
+}
+
+.item-user .image-user img {
+    width: 100%;        
+    height: 100%;      
+    object-fit: cover;  
+    display: block;     
+}
+
+.item-user .user-name {
+    margin-top: 11px;
+}
+
+.item-user .user-name .nickname{
+    color: #969393;
+}
+
+.item-user .user-name .name-surname{
+    color: #444;
+    font-weight: bold;
+}
+
+.avatar-initials {
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;      
+    background-color: #007bff; 
+    color: white;            
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 24px;
+    text-transform: uppercase;
+}
+
+.follow-button .btn {
+  min-width: 100px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 24%;
+  margin-right: 10px;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  color: white;
+}
+
+.btn-success.following {
+  background-color: #28a745;
+  color: white;
+}

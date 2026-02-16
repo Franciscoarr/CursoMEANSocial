@@ -3,7 +3,6 @@ import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { Observable } from 'rxjs';
 import { User } from '../models/user';
 import { isPlatformBrowser } from '@angular/common';
-import { application } from 'express';
 
 @Injectable({
   providedIn: 'root',
@@ -79,7 +78,7 @@ export class UserService {
     return this.http.put(this.url+'update-user/'+user._id, params, {headers: headers});
   }
 
-  getUsers(page = null){
+  getUsers(page: number){
     let headers = new HttpHeaders().set('Content-Type', 'application/json').set('Authorization',this.getToken());
 
     return this.http.get(this.url+'users/'+page, {headers: headers});    
