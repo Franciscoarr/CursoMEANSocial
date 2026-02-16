@@ -4,6 +4,7 @@ import { Register } from './components/register/register';
 import { Home } from './components/home/home';
 import { UserEdit } from './components/user-edit/user-edit';
 import { Users } from './components/users/users';
+import { Sidebars } from './components/sidebars/sidebars';
 
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms'; 
@@ -17,7 +18,7 @@ export const routes: Routes = [
   { path: 'register', component: Register},
   { path: 'home', component: Home, },
   { path: 'mis-datos', component: UserEdit, },
-  { path: 'gente/:page', component: Users, },
+  { path: 'gente/:page', component: Users},
   { path: 'gente', redirectTo: 'gente/1', pathMatch: 'full' },
   { path: '**', redirectTo: '', pathMatch: 'full'}
 ];
@@ -27,7 +28,8 @@ export const routes: Routes = [
         BrowserModule,
         RouterModule.forRoot(routes),
         FormsModule,
-        ToastrModule.forRoot()
+        ToastrModule.forRoot(),
+        Sidebars
     ],
     exports: [RouterModule],
     providers: [provideHttpClient()]

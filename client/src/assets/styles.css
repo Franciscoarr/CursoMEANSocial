@@ -63,8 +63,10 @@
     height: 75px;       
     border-radius: 50%; 
     overflow: hidden;
-    margin-top: 9px;
     margin-right: 15px;
+    flex-shrink: 0;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease;
 }
 
 .item-user .image-user img {
@@ -74,47 +76,142 @@
     display: block;     
 }
 
+.item-user .image-user:hover {
+    transform: scale(1.05);
+}
+
 .item-user .user-name {
-    margin-top: 11px;
+    margin-top: 10px;
 }
 
-.item-user .user-name .nickname{
-    color: #969393;
+.item-user .user-name .nickname {
+    color: #6c757d;
+    font-size: 0.9rem;
 }
 
-.item-user .user-name .name-surname{
-    color: #444;
-    font-weight: bold;
+.item-user .user-name .name-surname {
+    color: #212529;
+    font-weight: 600;
+    font-size: 1rem;
 }
 
+/* Avatar con iniciales */
 .avatar-initials {
     width: 75px;
     height: 75px;
     border-radius: 50%;      
-    background-color: #007bff; 
+    background: linear-gradient(135deg, #007bff, #00c6ff); 
     color: white;            
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: bold;
+    font-weight: 700;
     font-size: 24px;
     text-transform: uppercase;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
 }
 
+/* Botones de seguir */
 .follow-button .btn {
-  min-width: 100px;
-  font-weight: bold;
-  cursor: pointer;
-  margin-top: 24%;
-  margin-right: 10px;
+    min-width: 100px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-right: 10px;
+    transition: all 0.2s ease;
 }
 
 .btn-primary {
-  background-color: #007bff;
-  color: white;
+    background-color: #007bff;
+    color: white;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
 }
 
 .btn-success.following {
-  background-color: #28a745;
-  color: white;
+    background-color: #28a745;
+    color: white;
+    border: none;
+}
+
+.btn-success.following.btn-danger {
+    background-color: #dc3545 !important;
+}
+
+/* ===================== Sidebar ===================== */
+#user-card {
+    max-width: 280px;
+    margin: 0 auto 20px auto;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    padding: 20px;
+    text-align: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#user-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.avatar {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 15px auto;
+    overflow: hidden;
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Nombre y nickname del sidebar */
+#user-card .name-surname a {
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #212529;
+    text-decoration: none;
+}
+
+#user-card .nickname {
+    font-size: 0.9rem;
+    color: #6c757d;
+}
+
+/* Estadísticas */
+.stats {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+.stats .following-data a {
+    text-decoration: none;
+    color: inherit;
+    text-align: center;
+    flex: 1;
+}
+
+.stats .following-data a:hover {
+    text-decoration: none;
+    color: #007bff;
+}
+
+.stats .stat-label {
+    font-size: 0.85rem;
+    color: #6c757d;
+    display: block;
+}
+
+.stats .stat-number {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #212529;
 }

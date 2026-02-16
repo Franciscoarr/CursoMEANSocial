@@ -6,12 +6,14 @@ import { UserService } from '../../service/user';
 import { UploadService } from '../../service/upload';
 import { FollowService } from '../../service/follow';
 import { ChangeDetectorRef } from '@angular/core';
+import { Sidebars } from '../sidebars/sidebars';
 
 @Component({
   selector: 'app-users',
-  imports: [RouterModule],
+  imports: [RouterModule, Sidebars],
   templateUrl: './users.html',
   styleUrl: './users.css',
+  standalone: true,
   providers: [UserService]
 })
 export class Users implements OnInit{

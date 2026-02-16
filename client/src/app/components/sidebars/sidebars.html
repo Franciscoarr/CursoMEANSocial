@@ -1,1 +1,93 @@
-<p>sidebars works!</p>
+<div id="user-card" class="card text-center p-3 mb-4">
+  <div class="avatar mx-auto mb-3">
+    @if (user?.image){
+      <img src="{{ url + 'get-image-user/' + user.image }}" class="rounded-circle img-fluid" alt="User Image">
+    } @else {
+      <div class="avatar-initials rounded-circle d-flex align-items-center justify-content-center">
+        {{ user?.name?.charAt(0)?.toUpperCase() }}{{ user?.surname?.charAt(0)?.toUpperCase() }}
+      </div>
+    }
+  </div>
+
+  <div class="name-surname mb-2">
+    <a href="#" class="text-decoration-none fw-bold">
+      {{ user?.name }} {{ user?.surname }}
+    </a>
+    <p class="nickname text-muted mb-0">@{{ user?.nick }}</p>
+  </div>
+
+  @if(stats){
+  <div class="row stats text-center mt-3">
+    <div class="col">
+      <div class="stat-label">Siguiendo</div>
+      <div class="stat-number">{{ stats?.following }}</div>
+    </div>
+    <div class="col">
+      <div class="stat-label">Seguidores</div>
+      <div class="stat-number">{{ stats?.followed }}</div>
+    </div>
+    <div class="col">
+      <div class="stat-label">Publicaciones</div>
+      <div class="stat-number">{{ stats?.publications }}</div>
+    </div>
+  </div>
+  }
+</div>
+
+<div id="new-publication" class="card shadow-sm border-0 mb-4">
+  <div class="card-body">
+    
+    <h5 class="card-title text-center fw-bold mb-4">
+      Crear publicación
+    </h5>
+
+    <form #newPubForm="ngForm" (ngSubmit)="onSubmit()" novalidate>
+
+      <!-- Texto -->
+      <div class="mb-3">
+        <label class="form-label fw-semibold">
+          ¿Qué estás pensando hoy?
+        </label>
+
+        <textarea
+          name="text"
+          #text="ngModel"
+          [(ngModel)]="publication.text"
+          class="form-control"
+          rows="4"
+          placeholder="Escribe algo..."
+          required>
+        </textarea>
+
+        @if (!text.valid && text.touched) {
+          <div class="text-danger small mt-1">
+            El texto de la publicación es obligatorio
+          </div>
+        }
+      </div>
+
+      <!-- Imagen -->
+      <div class="mb-3">
+        <label class="form-label fw-semibold">
+          Sube una imagen
+        </label>
+
+        <input
+          type="file"
+          class="form-control"
+          accept="image/*">
+      </div>
+
+      <!-- Botón -->
+      <div class="d-grid">
+        <button
+          type="submit"
+          class="btn btn-success fw-bold"
+          [disabled]="!newPubForm.form.valid">
+          Enviar publicación
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>
