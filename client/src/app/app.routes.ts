@@ -5,6 +5,7 @@ import { Home } from './components/home/home';
 import { UserEdit } from './components/user-edit/user-edit';
 import { Users } from './components/users/users';
 import { Sidebars } from './components/sidebars/sidebars';
+import { Timeline } from './components/timeline/timeline';
 
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms'; 
@@ -20,6 +21,7 @@ export const routes: Routes = [
   { path: 'mis-datos', component: UserEdit, },
   { path: 'gente/:page', component: Users},
   { path: 'gente', redirectTo: 'gente/1', pathMatch: 'full' },
+  { path: 'timeline', component: Timeline, },
   { path: '**', redirectTo: '', pathMatch: 'full'}
 ];
 
