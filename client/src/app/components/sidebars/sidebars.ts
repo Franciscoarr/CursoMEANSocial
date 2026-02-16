@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../service/user';
 import { UploadService } from '../../service/upload';
+import { PublicationService } from '../../service/publication';
 import { Publication } from '../../models/publication';
 import { FormsModule } from '@angular/forms'; 
+import { ChangeDetectorRef } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-sidebars',
@@ -10,7 +13,7 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './sidebars.html',
   styleUrl: './sidebars.css',
   standalone: true,
-  providers: [UserService]
+  providers: [UserService, PublicationService]
 })
 export class Sidebars implements OnInit{
   public identity;
@@ -18,10 +21,11 @@ export class Sidebars implements OnInit{
   public stats;
   public url;
   public user;
-  public status: any;
   public publication: Publication;
 
-  constructor(private _userService: UserService, private _uploadService: UploadService){
+  constructor(private _userService: UserService, private _uploadService: UploadService, private _publicationService: PublicationService, private cdr: ChangeDetectorRef,
+              private toast: ToastrService
+  ){
     this.identity = this._userService.getIdentity();
     this.token = this._userService.getToken();
     this.stats = this._userService.getStats();
@@ -38,8 +42,25 @@ export class Sidebars implements OnInit{
 
   }
 
-  onSubmit(){
-    console.log(this.publication)
+  onSubmit(form: any){
+    this._publicationService.addPublication(this.token, this.publication).subscribe({
+            next: (response: any) => {
+              if (response.publication) {
+                  this.publication = new Publication("", "", "", "", this.identity._id);
+                  this.toast.success('Publicación creada correctamente');
+                  form.reset();
+              } else {
+                  this.toast.error('Error al crear la publicación');
+                }
+              this.cdr.detectChanges();
+            },
+            error: error => {
+                var errorMessage = <any>error;
+                console.log(errorMessage);
+                this.toast.error('Error al crear la publicación');
+                this.cdr.detectChanges();
+            }
+        });
   }
 
 }

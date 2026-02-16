@@ -215,3 +215,11 @@
     font-weight: 700;
     color: #212529;
 }
+
+/* ===================== Timeline ===================== */
+.publications {
+  min-height: 500px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+}
