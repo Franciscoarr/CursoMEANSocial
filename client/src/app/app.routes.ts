@@ -7,6 +7,7 @@ import { Users } from './components/users/users';
 import { Sidebars } from './components/sidebars/sidebars';
 import { Timeline } from './components/timeline/timeline';
 import { Publications } from './components/publications/publications';
+import { Profile } from './components/profile/profile';
 
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms'; 
@@ -18,12 +19,12 @@ export const routes: Routes = [
   { path: '', component: Home},  
   { path: 'login', component: Login},
   { path: 'register', component: Register},
-  { path: 'home', component: Home, },
-  { path: 'mis-datos', component: UserEdit, },
+  { path: 'home', component: Home },
+  { path: 'mis-datos', component: UserEdit },
   { path: 'gente/:page', component: Users},
   { path: 'gente', redirectTo: 'gente/1', pathMatch: 'full' },
-  { path: 'timeline', component: Timeline, },
-  { path: '**', redirectTo: '', pathMatch: 'full'}
+  { path: 'timeline', component: Timeline },
+  { path: 'profile/:id', component: Profile }
 ];
 
 @NgModule({

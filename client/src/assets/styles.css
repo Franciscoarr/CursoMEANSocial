@@ -225,3 +225,12 @@
   border-radius: 12px;
   padding: 20px;
 }
+
+/* ===================== Perfiles ===================== */
+
+.data-profile {
+  min-height: 500px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+}
