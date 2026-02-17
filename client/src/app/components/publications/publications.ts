@@ -1,25 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterModule, ActivatedRoute, Params } from '@angular/router';
 import { Publication } from '../../models/publication';
-import { Publications } from '../publications/publications';
 import { UploadService } from '../../service/upload';
 import { UserService } from '../../service/user';
 import { PublicationService } from '../../service/publication';
 import { ChangeDetectorRef } from '@angular/core';
-import { Sidebars } from '../sidebars/sidebars';
 import { ToastrService } from 'ngx-toastr';
-import { TimeAgoPipe } from "../../pipes/time-ago.pipe";
-import { DatePipe } from "@angular/common";
 
 @Component({
-  selector: 'app-timeline',
-  imports: [RouterModule, Sidebars, Publications, TimeAgoPipe, DatePipe],
-  templateUrl: './timeline.html',
-  styleUrl: './timeline.css',
+  selector: 'app-publications',
+  imports: [RouterModule],
+  templateUrl: './publications.html',
+  styleUrl: './publications.css',
   standalone: true,
   providers: [UserService, PublicationService]
 })
-export class Timeline implements OnInit{
+export class Publications implements OnInit{
   public identity;
   public token;
   public title: string;
@@ -34,7 +30,7 @@ export class Timeline implements OnInit{
   constructor(private _route: ActivatedRoute, private _router: Router, private _userService: UserService, private _uploadService: UploadService, private _publicationService: PublicationService,
     private toast: ToastrService, private cdr: ChangeDetectorRef
   ){
-    this.title = 'Timeline';
+    this.title = 'Publications';
     this.identity = this._userService.getIdentity();
     this.token = this._userService.getToken();
     this.url = this._uploadService.url;
@@ -100,8 +96,5 @@ export class Timeline implements OnInit{
     this.cdr.detectChanges();
   }
 
-  refresh(event: any){
-    this.getPublications(1);
-  }
   
 }

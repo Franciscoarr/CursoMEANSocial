@@ -6,6 +6,7 @@ import { UserEdit } from './components/user-edit/user-edit';
 import { Users } from './components/users/users';
 import { Sidebars } from './components/sidebars/sidebars';
 import { Timeline } from './components/timeline/timeline';
+import { Publications } from './components/publications/publications';
 
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms'; 

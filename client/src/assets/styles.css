@@ -58,7 +58,8 @@
     color:black !important;
 }
 
-.item-user .image-user {
+.item-user .image-user,
+.item-publication .image-user {
     width: 75px;        
     height: 75px;       
     border-radius: 50%; 
@@ -69,7 +70,8 @@
     transition: transform 0.2s ease;
 }
 
-.item-user .image-user img {
+.item-user .image-user img,
+.item-publication .image-user img  {
     width: 100%;        
     height: 100%;      
     object-fit: cover;  

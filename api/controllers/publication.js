@@ -42,32 +42,24 @@ function getPublications(req, res){
 
     Promise.all([
         Follow.find({user:req.user.sub})
-            .skip((page - 1) * itemsPerPage)
-            .limit(itemsPerPage)
             .populate('followed')
             .exec(),
         Follow.countDocuments({ user:req.user.sub }).exec()
     ])
-        .then(([follows]) => {
-           var follows_clean = [];
+    .then(([follows, totalFollows]) => {
+        var follows_clean = follows.map(f => f.followed);
+        follows_clean.push(req.user.sub);
 
-            follows.forEach((follow) => {
-                follows_clean.push(follow.followed);
-            })
-
-            // include user's own id so their publications also appear
-            follows_clean.push(req.user.sub);
-
-            return Promise.all([
-                Publication.find({ user: { "$in": follows_clean } })
-                    .sort('-created_at')
-                    .skip((page - 1) * itemsPerPage)
-                    .limit(itemsPerPage)
-                    .populate('user')
-                    .exec(),
-                Publication.countDocuments({ user: { "$in": follows_clean } }).exec()
-            ]);
-        })
+        return Promise.all([
+            Publication.find({ user: { "$in": follows_clean } })
+                .sort('-created_at')
+                .skip((page - 1) * itemsPerPage)
+                .limit(itemsPerPage)
+                .populate('user')
+                .exec(),
+            Publication.countDocuments({ user: { "$in": follows_clean } }).exec()
+        ]);
+    })
         .then(([publications, total]) => {
             if (!publications || publications.length === 0) return res.status(404).send({ message: 'No hay publicaciones' });
 
@@ -75,6 +67,7 @@ function getPublications(req, res){
                 total_items: total,
                 pages: Math.ceil(total / itemsPerPage),
                 page: page,
+                items_per_page: itemsPerPage,
                 publications
             });
         })

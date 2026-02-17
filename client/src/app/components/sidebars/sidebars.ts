@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 import { UserService } from '../../service/user';
+import { Router, RouterModule, ActivatedRoute, Params } from '@angular/router';
 import { UploadService } from '../../service/upload';
 import { PublicationService } from '../../service/publication';
 import { Publication } from '../../models/publication';
@@ -24,7 +25,7 @@ export class Sidebars implements OnInit{
   public publication: Publication;
 
   constructor(private _userService: UserService, private _uploadService: UploadService, private _publicationService: PublicationService, private cdr: ChangeDetectorRef,
-              private toast: ToastrService
+              private toast: ToastrService, private _router: Router
   ){
     this.identity = this._userService.getIdentity();
     this.token = this._userService.getToken();
@@ -49,6 +50,7 @@ export class Sidebars implements OnInit{
                   this.publication = new Publication("", "", "", "", this.identity._id);
                   this.toast.success('Publicación creada correctamente');
                   form.reset();
+                  this._router.navigate(['/timeline'])
               } else {
                   this.toast.error('Error al crear la publicación');
                 }
@@ -62,5 +64,12 @@ export class Sidebars implements OnInit{
             }
         });
   }
+
+  //Output
+  @Output() sended = new EventEmitter();
+  sendPublication(event: any){
+    this.sended.emit({send:'true'});
+  }
+  
 
 }

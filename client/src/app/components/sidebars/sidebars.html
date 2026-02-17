@@ -41,7 +41,7 @@
       Crear publicación
     </h5>
 
-    <form #newPubForm="ngForm" (ngSubmit)="onSubmit(newPubForm)" novalidate>
+    <form #newPubForm="ngForm" (ngSubmit)="onSubmit(newPubForm);sendPublication($event)" novalidate>
 
       <!-- Texto -->
       <div class="mb-3">
