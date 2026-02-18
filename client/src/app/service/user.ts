@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { User } from '../models/user';
 import { isPlatformBrowser } from '@angular/common';
 
@@ -12,6 +12,7 @@ export class UserService {
   public identity: any;
   public token: any;
   public stats: any;
+  public statsSubject: BehaviorSubject<any> = new BehaviorSubject({});
 
   constructor(private http: HttpClient, @Inject(PLATFORM_ID) private platformId: Object) {}
 

@@ -10,11 +10,11 @@ import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-sidebars',
-  imports: [FormsModule],
+  imports: [FormsModule, RouterModule],
   templateUrl: './sidebars.html',
   styleUrl: './sidebars.css',
   standalone: true,
-  providers: [UserService, PublicationService]
+  providers: [UserService, PublicationService, UploadService]
 })
 export class Sidebars implements OnInit{
   public identity;
@@ -43,14 +43,29 @@ export class Sidebars implements OnInit{
 
   }
 
-  onSubmit(form: any){
+  onSubmit(form: any, $event: any){
     this._publicationService.addPublication(this.token, this.publication).subscribe({
             next: (response: any) => {
               if (response.publication) {
                   this.publication = new Publication("", "", "", "", this.identity._id);
-                  this.toast.success('Publicación creada correctamente');
-                  form.reset();
-                  this._router.navigate(['/timeline'])
+
+                  if(this.filesToUpload && this.filesToUpload.length){
+                    // Subir imagen
+                    this._uploadService.makeFileRequest(this.url+'upload-image-publication/'+response.publication._id, [], this.filesToUpload, this.token, 'image')
+                      .then((result: any) => {
+                        this.publication.file = result.image;
+
+                        this.toast.success('Publicación creada correctamente');
+                        form.reset();
+                        this.sended.emit({send:'true'});
+                        this._router.navigate(['/timeline'])
+                    });
+                  } else {
+                    this.toast.success('Publicación creada correctamente');
+                    form.reset();
+                    this.sended.emit({send:'true'});
+                    this._router.navigate(['/timeline'])
+                  }
               } else {
                   this.toast.error('Error al crear la publicación');
                 }
@@ -63,6 +78,11 @@ export class Sidebars implements OnInit{
                 this.cdr.detectChanges();
             }
         });
+  }
+
+  public filesToUpload!: Array<File>;
+  fileChangeEvent(fileInput: any){
+    this.filesToUpload = <Array<File>>fileInput.target.files;
   }
 
   //Output

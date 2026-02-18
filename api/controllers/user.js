@@ -241,7 +241,7 @@ async function getCountFollow(user_id){
         return count;
     })
     .catch((err) => {
-        if(err) return handleError(err);
+        if(err) return console.log(err);
     });
 
     var followed = await Follow.countDocuments({"followed":user_id}).exec()
@@ -249,7 +249,7 @@ async function getCountFollow(user_id){
         return count;
     })
     .catch((err) => {
-        if(err) return handleError(err);
+        if(err) return console.log(err);
     });
 
     var publications = await Publication.countDocuments({"user":user_id}).exec()
@@ -257,7 +257,7 @@ async function getCountFollow(user_id){
         return count;
     })
     .catch((err) => {
-        if(err) return handleError(err);
+        if(err) return console.log(err);
     });
 
     return {

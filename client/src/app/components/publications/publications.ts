@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Router, RouterModule, ActivatedRoute, Params } from '@angular/router';
 import { Publication } from '../../models/publication';
 import { UploadService } from '../../service/upload';
@@ -6,10 +6,12 @@ import { UserService } from '../../service/user';
 import { PublicationService } from '../../service/publication';
 import { ChangeDetectorRef } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
+import { TimeAgoPipe } from "../../pipes/time-ago.pipe";
+import { DatePipe } from "@angular/common";
 
 @Component({
   selector: 'app-publications',
-  imports: [RouterModule],
+  imports: [RouterModule, TimeAgoPipe, DatePipe],
   templateUrl: './publications.html',
   styleUrl: './publications.css',
   standalone: true,
@@ -26,6 +28,16 @@ export class Publications implements OnInit{
   public itemsPerPage: any;
   public publications: Publication[] = [];
   public noMore = false;
+  public currentUserId: any;
+
+  @Input() set user(userId: string) {
+    if (userId) {
+      this.currentUserId = userId;
+      this.page = 1;
+      this.getPublications(userId, this.page);
+    }
+  }
+
   
   constructor(private _route: ActivatedRoute, private _router: Router, private _userService: UserService, private _uploadService: UploadService, private _publicationService: PublicationService,
     private toast: ToastrService, private cdr: ChangeDetectorRef
@@ -39,16 +51,16 @@ export class Publications implements OnInit{
   ngOnInit(){
     this._route.params.subscribe(params => {
       this.page = 1;
-      this.getPublications(this.page);
+      this.getPublications(this.user, this.page);
     });
   }
 
-  getPublications(page: any, adding = false){
+  getPublications(user: any, page: any, adding = false){
     this.token = this._userService.getToken();
     if (!this.token) {
       return;
     }
-    this._publicationService.getPublications(this.token, page).subscribe({
+    this._publicationService.getPublicationsUser(this.token, user, page).subscribe({
       next: (response: any) => {
 
        if(response.publications){
@@ -80,19 +92,19 @@ export class Publications implements OnInit{
       error: error => {
         var errorMessage = <any>error;
         console.log(errorMessage);
-        this.toast.error('Has llegado al límite');
         this.cdr.detectChanges();
       }
     });
   }
 
   viewMore(){
-    if(this.publications.length == this.total){
+    this.page += 1;
+
+    if(this.page == this.pages){
       this.noMore = true;
-    } else {
-      this.page += 1;
-    }
-    this.getPublications(this.page, true);
+    } 
+    
+    this.getPublications(this.currentUserId, this.page, true);
     this.cdr.detectChanges();
   }
 

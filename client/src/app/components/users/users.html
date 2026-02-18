@@ -24,7 +24,7 @@
                 <!-- Nombre y nickname -->
                 <div class="user-name flex-grow-1">
                   <p class="name-surname mb-1">
-                    <a href="#" class="fw-bold text-decoration-none">{{ user.name }} {{ user.surname }}</a>
+                    <a [routerLink]="['/profile',user._id]" class="fw-bold text-decoration-none">{{ user.name }} {{ user.surname }}</a>
                   </p>
                   <p class="nickname text-muted mb-0">{{ user.nick }}</p>
                 </div>

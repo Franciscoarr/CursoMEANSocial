@@ -10,7 +10,7 @@
   </div>
 
   <div class="name-surname mb-2">
-    <a href="#" class="text-decoration-none fw-bold">
+    <a [routerLink]="['/profile',identity._id]" class="text-decoration-none fw-bold">
       {{ user?.name }} {{ user?.surname }}
     </a>
     <p class="nickname text-muted mb-0">@{{ user?.nick }}</p>
@@ -41,7 +41,7 @@
       Crear publicación
     </h5>
 
-    <form #newPubForm="ngForm" (ngSubmit)="onSubmit(newPubForm);sendPublication($event)" novalidate>
+    <form #newPubForm="ngForm" (ngSubmit)="onSubmit(newPubForm, $event)" novalidate>
 
       <!-- Texto -->
       <div class="mb-3">
@@ -56,8 +56,7 @@
           class="form-control"
           rows="4"
           placeholder="Escribe algo..."
-          required>
-        </textarea>
+          required></textarea>
 
         @if (!text.valid && text.touched) {
           <div class="text-danger small mt-1">
@@ -75,6 +74,7 @@
         <input
           type="file"
           class="form-control"
+          (change)="fileChangeEvent($event)"
           accept="image/*">
       </div>
 

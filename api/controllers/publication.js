@@ -74,6 +74,43 @@ function getPublications(req, res){
         .catch(() => res.status(500).send({ message: 'Error al devolver las publicaciones' }));
 }
 
+function getPublicationsUser(req, res){
+    var page = 1;
+
+    if(req.params.page){
+        page = req.params.page;
+    }
+
+    var user = req.user.sub;
+    if(req.params.user){
+        user = req.params.user;
+    }
+    
+    var itemsPerPage = 4;
+
+        Promise.all([
+            Publication.find({ user: user })
+                .sort('-created_at')
+                .skip((page - 1) * itemsPerPage)
+                .limit(itemsPerPage)
+                .populate('user')
+                .exec(),
+            Publication.countDocuments({ user: user }).exec()
+        ])
+        .then(([publications, total]) => {
+            if (!publications || publications.length === 0) return res.status(404).send({ message: 'No hay publicaciones' });
+
+            return res.status(200).send({
+                total_items: total,
+                pages: Math.ceil(total / itemsPerPage),
+                page: page,
+                items_per_page: itemsPerPage,
+                publications
+            });
+        })
+        .catch(() => res.status(500).send({ message: 'Error al devolver las publicaciones' }));
+}
+
 function getPublication(req, res){
     var publicationId = req.params.id;
 
@@ -91,7 +128,6 @@ function deletePublication(req, res){
 
      Publication.deleteOne({user: req.user.sub, _id: publicationId})
             .then((publicationRemoved) => {
-                if(!publicationRemoved || publicationRemoved.deletedCount === 0) return res.status(404).send({message: 'No se ha borrado la publicacion'});
     
                 return res.status(200).send({message: 'Publicación eliminada correctamente'});
             })
@@ -161,6 +197,7 @@ function getImageFile(req, res){
 module.exports = {
     savePublication,
     getPublications,
+    getPublicationsUser,
     getPublication,
     deletePublication,
     uploadImage,

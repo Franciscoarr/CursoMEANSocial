@@ -13,7 +13,7 @@ import { DatePipe } from "@angular/common";
 
 @Component({
   selector: 'app-timeline',
-  imports: [RouterModule, Sidebars, Publications, TimeAgoPipe, DatePipe],
+  imports: [RouterModule, Sidebars, TimeAgoPipe, DatePipe],
   templateUrl: './timeline.html',
   styleUrl: './timeline.css',
   standalone: true,
@@ -30,6 +30,7 @@ export class Timeline implements OnInit{
   public itemsPerPage: any;
   public publications: Publication[] = [];
   public noMore = false;
+  public showImage: any;
   
   constructor(private _route: ActivatedRoute, private _router: Router, private _userService: UserService, private _uploadService: UploadService, private _publicationService: PublicationService,
     private toast: ToastrService, private cdr: ChangeDetectorRef
@@ -91,17 +92,39 @@ export class Timeline implements OnInit{
   }
 
   viewMore(){
-    if(this.publications.length == this.total){
+    this.page += 1;
+
+    if(this.page == this.pages){
       this.noMore = true;
-    } else {
-      this.page += 1;
     }
+
     this.getPublications(this.page, true);
     this.cdr.detectChanges();
   }
 
-  refresh(event: any){
+  refresh(event = null){
     this.getPublications(1);
+    this.cdr.detectChanges();
+  }
+
+  showThisImage(id: any){
+    this.showImage = id;
+  }
+
+  hideThisImage(id: any){
+    this.showImage = 0;
   }
   
+  deletePublication(id: any){
+    this._publicationService.deletePublication(this.token, id).subscribe({
+      next: (response: any) => {
+        this.refresh();
+        this.cdr.detectChanges();
+      },
+      error: error => {
+        console.log(<any>error);
+      }
+
+    });
+  }
 }

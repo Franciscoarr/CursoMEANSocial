@@ -228,9 +228,41 @@
 
 /* ===================== Perfiles ===================== */
 
-.data-profile {
-  min-height: 500px;
+#data-profile {
+  min-height: 400px;
   background-color: #ffffff;
   border-radius: 12px;
   padding: 20px;
+}
+
+#data-profile .avatar{
+    width: 185px;
+    height: 185px;
+    border-radius: 400px;
+    overflow: hidden;
+    margin-right: 15px;
+}
+
+#data-profile .avatar img{
+    width: 100%;
+}
+
+#data-profile .user-name{
+    margin-top: 0px
+}
+
+#data-profile .user-name .name{
+    font-size: 24px;
+    font-weight: bold;
+    color: #555;
+}
+
+#data-profile .user-name .nick{
+    font-size: 24px;
+    font-weight: normal;
+    color: gray;
+}
+
+#data-profile .publications{
+    margin-top: 30px;
 }
