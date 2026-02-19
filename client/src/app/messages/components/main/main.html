@@ -1,0 +1,23 @@
+<div class="col-lg-4 float-start" style="margin-top: 10px;">
+  <h3>{{title}}</h3>
+  <div class="sidebar-admin">
+    <ul class="nav flex-column nav-pills">
+      <li class="nav-item">
+        <a class="nav-link" routerLink="enviar" routerLinkActive="active">Enviar mensaje</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="recibidos" routerLinkActive="active">Mensajes recibidos</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="enviados" routerLinkActive="active">Mensajes enviados</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/home">Información</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="col-lg-8 float-end" style="margin-top: 10px;">
+  <router-outlet></router-outlet>
+</div>

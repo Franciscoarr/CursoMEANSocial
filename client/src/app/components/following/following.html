@@ -1,0 +1,71 @@
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-lg-8">
+      <h1 class="h1-strong">{{title}} {{user.name}}</h1>
+
+      @if(following){
+        <div class="people">
+          <div class="item-user">
+            
+            @for (follow of following; track follow._id) {
+              @if (follow.followed) { <!-- Evita null -->
+                <div class="card mb-3">
+                  <div class="card-body d-flex align-items-center">
+                    
+                    <!-- Imagen o iniciales -->
+                    <div class="image-user me-3">
+                      @if (follow.followed.image) {
+                        <img src="{{ url + 'get-image-user/' + follow.followed.image }}" class="avatar-user rounded-circle" onerror="this.src='assets/user.png'"/>
+                      } @else {
+                        <div class="avatar-initials rounded-circle d-flex align-items-center justify-content-center">
+                          {{ follow.followed.name.charAt(0).toUpperCase() }}{{ follow.followed.surname.charAt(0).toUpperCase() }}
+                        </div>
+                      }
+                    </div>
+
+                    <!-- Nombre y nickname -->
+                    <div class="user-name flex-grow-1">
+                      <p class="name-surname mb-1">
+                        <a [routerLink]="['/profile', follow.followed._id]" class="fw-bold text-decoration-none">
+                          {{ follow.followed.name }} {{ follow.followed.surname }}
+                        </a>
+                      </p>
+                      <p class="nickname text-muted mb-0">{{ follow.followed.nick }}</p>
+                    </div>
+
+                    <!-- Botones de seguir / dejar de seguir -->
+                    @if (follow.followed._id != identity._id){
+                      <div class="follow-button ms-3">
+                        @if(follows.indexOf(follow.followed._id) >= 0) {
+                          <button class="btn btn-success following"
+                                  (mouseenter)="mouseEnter(follow.followed._id)"
+                                  (mouseleave)="mouseLeave(follow.followed._id)"
+                                  (click)="unfollowUser(follow.followed._id)"
+                                  [class.btn-danger]="followUserOver == follow.followed._id">
+                            @if(followUserOver == follow.followed._id) {Dejar de seguir} @else {Siguiendo}
+                          </button>
+                        } @else {
+                          <button class="btn btn-primary" (click)="followUser(follow.followed._id)">Seguir</button>
+                        }
+                      </div>
+                    }
+                  </div>
+                </div>
+              }
+            } 
+          </div>
+
+          <!-- Paginación -->
+          <div class="pagination mt-3">
+            <a [routerLink]="['/siguiendo', userPageId, prev_page]" class="btn btn-primary me-2">Anterior</a>
+            <a [routerLink]="['/siguiendo', userPageId, next_page]" class="btn btn-primary">Siguiente</a>
+          </div>
+        </div>
+      }
+    </div>
+
+    <div class="col-lg-4">
+      <app-sidebars></app-sidebars>
+    </div>
+  </div>
+</div>

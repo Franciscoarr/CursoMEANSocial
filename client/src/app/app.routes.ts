@@ -8,6 +8,10 @@ import { Sidebars } from './components/sidebars/sidebars';
 import { Timeline } from './components/timeline/timeline';
 import { Publications } from './components/publications/publications';
 import { Profile } from './components/profile/profile';
+import { Following } from './components/following/following';
+import { Followed } from './components/followed/followed';
+
+import { messagesRoutes } from './messages/components/messages-routing';
 
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms'; 
@@ -24,7 +28,10 @@ export const routes: Routes = [
   { path: 'gente/:page', component: Users},
   { path: 'gente', redirectTo: 'gente/1', pathMatch: 'full' },
   { path: 'timeline', component: Timeline },
-  { path: 'profile/:id', component: Profile }
+  { path: 'profile/:id', component: Profile },
+  { path: 'siguiendo/:id/:page', component: Following},
+  { path: 'seguidores/:id/:page', component: Followed},
+  ...messagesRoutes
 ];
 
 @NgModule({
@@ -33,7 +40,7 @@ export const routes: Routes = [
         RouterModule.forRoot(routes),
         FormsModule,
         ToastrModule.forRoot(),
-        Sidebars
+        Sidebars,
     ],
     exports: [RouterModule],
     providers: [provideHttpClient()]

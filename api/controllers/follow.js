@@ -58,25 +58,65 @@ function getFollowingUsers(req,res){
     var itemsPerPage = 4;
 
     Promise.all([
-            Follow.find({user:userId})
+            Follow.find({user:userId, followed: {$ne: null}})
                 .skip((page - 1) * itemsPerPage)
                 .limit(itemsPerPage)
                 .populate({path: 'followed'})
                 .exec(),
-            Follow.countDocuments({ user: userId }).exec()
+            Follow.countDocuments({ user: userId, followed: {$ne: null} }).exec()
         ])
             .then(([follows, total]) => {
                 if (!follows || follows.length === 0) {
                     return res.status(404).send({ message: 'No hay follows disponibles' });
                 }
-     
-                return res.status(200).send({   
-                    total,
-                    pages: Math.ceil(total / itemsPerPage),
-                    follows
+                followUserIds(req.user.sub).then((value) => {
+                    return res.status(200).send({   
+                        total,
+                        pages: Math.ceil(total / itemsPerPage),
+                        follows,
+                        users_following: value.following,
+                        users_follow_me: value.followed,
+                    });
                 });
             })
             .catch(() => res.status(500).send({ message: 'Error en la peticion' }));
+}
+
+async function followUserIds(user_id){
+    var following = await Follow.find({"user":user_id}).select({'_id':0, '__v':0, 'user':0}).exec()
+        .then((follows) => {
+            return follows;
+        })
+        .catch((err) => {
+            if(err) return handleError(err);
+        });
+
+    var followed = await Follow.find({"followed":user_id}).select({'_id':0, '__v':0, 'followed':0}).exec()
+        .then((follows) => {
+            return follows;
+        })
+        .catch((err) => {
+            if(err) return handleError(err);
+        });
+
+    // Procesar following ids
+    var following_clean = [];
+
+        following.forEach((follow) => {
+            following_clean.push(follow.followed);
+        });
+    
+    // Procesar followed ids
+    var followed_clean = [];
+
+        followed.forEach((follow) => {
+            followed_clean.push(follow.user);
+        });
+        
+    return {
+        following: following_clean,
+        followed: followed_clean
+    }
 }
 
 function getFollowedUsers(req, res){
@@ -97,22 +137,26 @@ function getFollowedUsers(req, res){
     var itemsPerPage = 4;
 
     Promise.all([
-            Follow.find({followed:userId})
+            Follow.find({followed:userId, user: {$ne: null}})
                 .skip((page - 1) * itemsPerPage)
                 .limit(itemsPerPage)
                 .populate('user')
                 .exec(),
-            Follow.countDocuments({ followed: userId }).exec()
+            Follow.countDocuments({ followed: userId, user: {$ne: null} }).exec()
         ])
             .then(([follows, total]) => {
                 if (!follows || follows.length === 0) {
                     return res.status(404).send({ message: 'No te siguen ningun usuario' });
                 }
      
-                return res.status(200).send({   
-                    total: total,
-                    pages: Math.ceil(total / itemsPerPage),
-                    follows
+                followUserIds(req.user.sub).then((value) => {
+                    return res.status(200).send({   
+                        total,
+                        pages: Math.ceil(total / itemsPerPage),
+                        follows,
+                        users_following: value.following,
+                        users_follow_me: value.followed,
+                    });
                 });
             })
             .catch(() => res.status(500).send({ message: 'Error en la petición' }));
@@ -122,10 +166,10 @@ function getFollowedUsers(req, res){
 function getMyFollows(req, res){
     var userId = req.user.sub;
 
-    var find = Follow.find({user:userId});
+    var find = Follow.find({user:userId, followed: {$ne: null}});
 
     if(req.params.followed){
-        find = Follow.find({followed: userId})
+        find = Follow.find({followed: userId, user: {$ne: null}})
     }
 
     Promise.all([

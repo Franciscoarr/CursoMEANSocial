@@ -61,16 +61,19 @@ export class UserService {
     return this.stats;
   }
 
-  getCounters(userId: string): Observable<any>{
-    let headers = new HttpHeaders().set('Content-Type', 'application/json').set('Authorization',this.getToken());
+  getCounters(userId: string): Observable<any> {
+    let headers = new HttpHeaders().set('Content-Type', 'application/json').set('Authorization', this.getToken());
+    let request$ = userId 
+      ? this.http.get(this.url + 'counters/' + userId, { headers }) 
+      : this.http.get(this.url + 'counters', { headers });
 
-    if (userId != null){
-      return this.http.get(this.url +'counters/'+userId, {headers: headers});
-    }else{
-      return this.http.get(this.url +'counters', {headers: headers});
-    }
-    
+    request$.subscribe((stats: any) => {
+      this.statsSubject.next(stats); 
+    });
+
+    return request$;
   }
+
 
   updateUser(user:User): Observable<any>{
     let params = JSON.stringify(user);

@@ -19,15 +19,15 @@
   @if(stats){
   <div class="row stats text-center mt-3">
     <div class="col">
-      <div class="stat-label">Siguiendo</div>
+      <div class="stat-label" style="cursor: pointer;" [routerLink]="['/siguiendo',identity._id,1]">Siguiendo</div>
       <div class="stat-number">{{ stats?.following }}</div>
     </div>
     <div class="col">
-      <div class="stat-label">Seguidores</div>
+      <div class="stat-label" style="cursor: pointer;" [routerLink]="['/seguidores',identity._id,1]">Seguidores</div>
       <div class="stat-number">{{ stats?.followed }}</div>
     </div>
     <div class="col">
-      <div class="stat-label">Publicaciones</div>
+      <div class="stat-label" style="cursor: pointer;" [routerLink]="['/profile',identity._id]">Publicaciones</div>
       <div class="stat-number">{{ stats?.publications }}</div>
     </div>
   </div>

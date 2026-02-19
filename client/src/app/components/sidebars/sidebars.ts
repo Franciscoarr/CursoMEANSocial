@@ -39,9 +39,15 @@ export class Sidebars implements OnInit{
   }
   }
 
-  ngOnInit(){
+  ngOnInit() {
+    this._userService.statsSubject.subscribe(stats => {
+      this.stats = stats;
+    });
 
+    // Cargar stats iniciales
+    this._userService.getCounters(this.identity._id).subscribe();
   }
+
 
   onSubmit(form: any, $event: any){
     this._publicationService.addPublication(this.token, this.publication).subscribe({
@@ -59,15 +65,18 @@ export class Sidebars implements OnInit{
                         form.reset();
                         this.sended.emit({send:'true'});
                         this._router.navigate(['/timeline'])
+                        this.cdr.detectChanges();
                     });
                   } else {
                     this.toast.success('Publicación creada correctamente');
                     form.reset();
                     this.sended.emit({send:'true'});
                     this._router.navigate(['/timeline'])
+                    this.cdr.detectChanges();
                   }
               } else {
                   this.toast.error('Error al crear la publicación');
+                  this.cdr.detectChanges();
                 }
               this.cdr.detectChanges();
             },
@@ -89,7 +98,9 @@ export class Sidebars implements OnInit{
   @Output() sended = new EventEmitter();
   sendPublication(event: any){
     this.sended.emit({send:'true'});
+    this.cdr.detectChanges();
   }
+
   
 
 }

@@ -236,7 +236,7 @@ function getCounters(req, res){
 }
 
 async function getCountFollow(user_id){
-    var following = await Follow.countDocuments({"user":user_id}).exec()
+    var following = await Follow.countDocuments({"user":user_id, followed: {$ne: null}}).exec()
     .then((count) => {
         return count;
     })
@@ -244,7 +244,7 @@ async function getCountFollow(user_id){
         if(err) return console.log(err);
     });
 
-    var followed = await Follow.countDocuments({"followed":user_id}).exec()
+    var followed = await Follow.countDocuments({"followed":user_id, user: {$ne: null}}).exec()
     .then((count) => {
         return count;
     })
