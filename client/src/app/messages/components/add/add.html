@@ -8,7 +8,7 @@
             @if (follows){
                 <select name="receiver" #receiver="ngModel" [(ngModel)]="message.receiver" class="form-control" required>
                     @for (follow of follows; track follow.followed._id) {
-                        <option value="{{follow.followed._id}}">
+                        <option [value]="follow.user._id">
                             {{follow.user.name + ' ' + follow.user.surname + ' (' + follow.user.nick + ') '}}
                         </option>
                     }

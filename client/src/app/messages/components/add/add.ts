@@ -1,5 +1,5 @@
 import { Component, OnInit, DoCheck } from "@angular/core";
-import { Router, ActivatedRoute, Params} from "@angular/router";
+import { Router, ActivatedRoute, Params } from "@angular/router";
 import { FormsModule } from "@angular/forms";
 import { ChangeDetectorRef } from "@angular/core";
 import { ToastrService } from 'ngx-toastr';
@@ -18,7 +18,7 @@ import { MessageService } from "../../../service/message";
     imports: [FormsModule],
     providers: [FollowService, MessageService]
 })
-export class Add implements OnInit{
+export class Add implements OnInit {
     public title: string;
     public message!: Message;
     public identity: any;
@@ -36,12 +36,12 @@ export class Add implements OnInit{
         private _userService: UserService,
         private cdr: ChangeDetectorRef,
         private toast: ToastrService
-    ){
+    ) {
         this.title = 'Enviar mensajes'
         this.identity = this._userService.getIdentity();
         this.token = this._userService.getToken();
         this.url = this._uploadService.url;
-        this.message = new Message('','','','',this.identity._id,'');
+        this.message = new Message('', '', '', '', this.identity._id, null as any);
     }
 
     ngOnInit(): void {
@@ -49,10 +49,10 @@ export class Add implements OnInit{
         this.getMyFollows();
     }
 
-    onSubmit(form: any){
+    onSubmit(form: any) {
         this._messageService.addMessage(this.token, this.message).subscribe({
             next: (res: any) => {
-                if(res.message){
+                if (res.message) {
                     this.toast.success('Mensaje enviado');
                     this.cdr.detectChanges();
                     form.reset();
@@ -66,7 +66,7 @@ export class Add implements OnInit{
         })
     }
 
-    getMyFollows(){
+    getMyFollows() {
         this._followService.getMyFollows(this.token).subscribe({
             next: (res: any) => {
                 this.follows = res.follows || [];

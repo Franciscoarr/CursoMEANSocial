@@ -98,7 +98,7 @@
       <!-- BOTÓN VER MÁS -->
       <div class="text-center mt-3">
         @if(!noMore){
-        <button class="btn btn-success" (click)="viewMore()">
+        <button class="btn btn-success" (click)="viewMore()" [disabled]="page === pages">
           Ver más publicaciones
         </button>
         }

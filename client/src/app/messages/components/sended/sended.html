@@ -1,4 +1,56 @@
 <div class="col-lg-10"> 
     <h3>{{title}}</h3>
-    <!-- Listado de mensajes enviados -->
+        @if(messages){
+        <div class="people">
+          <div class="item-user">
+            
+            @for (message of messages; track message._id) {
+              @if (message.emitter) { <!-- Evita null -->
+                <div class="card mb-3">
+                  <div class="card-body d-flex align-items-center">
+                    
+                    <!-- Imagen o iniciales -->
+                    <div class="image-user me-3">
+                      @if (message.emitter.image) {
+                        <img src="{{ url + 'get-image-user/' + message.emitter.image }}" class="avatar-user rounded-circle" onerror="this.src='assets/user.png'"/>
+                      } @else {
+                        <div class="avatar-initials rounded-circle d-flex align-items-center justify-content-center">
+                          {{ message.emitter.name.charAt(0).toUpperCase() }}{{ message.emitter.surname.charAt(0).toUpperCase() }}
+                        </div>
+                      }
+                    </div>
+
+                    <!-- Nombre y nickname -->
+                    <div class="user-name flex-grow-1">
+                      <p class="name-surname mb-1">
+                        <a [routerLink]="['/profile', message.emitter._id]" class="fw-bold text-decoration-none">
+                          {{ message.emitter.name }} {{ message.emitter.surname }}
+                        </a>
+                        |
+                        <span class="nickname text-muted mb-0">{{ message.emitter.nick }}</span>
+                        |
+                        <small class="text-muted" [title]="message.created_at | date:'dd/MM/yyyy, HH:mm'">
+                            {{message.created_at | timeAgo}}
+                        </small>
+                        <span>
+                            Enviado a <a [routerLink]="['/perfil', message.receiver._id]">{{ message.receiver.name + ' ' + message.receiver.surname }}</a>
+                        </span>
+                      </p>
+                      <p>
+                        {{message.text}}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              }
+            } 
+          </div>
+
+          <!-- Paginación -->
+          <div class="pagination mt-3">
+            <button [routerLink]="['/mensajes/enviados', prev_page]" class="btn btn-primary me-2" [disabled]="page === 1">Anterior</button>
+            <button [routerLink]="['/mensajes/enviados', next_page]" class="btn btn-primary" [disabled]="page === pages">Siguiente</button>
+          </div>
+        </div>
+      }
 </div>

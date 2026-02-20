@@ -51,7 +51,7 @@ function getReceivedMessages(req, res){
             Message.find({receiver:userId})
                 .skip((page - 1) * itemsPerPage)
                 .limit(itemsPerPage)
-                .populate('emitter', 'name surname image nick _id')
+                .populate('emitter receiver', 'name surname image nick _id')
                 .exec(),
             Message.countDocuments({ receiver: userId }).exec()
          ])

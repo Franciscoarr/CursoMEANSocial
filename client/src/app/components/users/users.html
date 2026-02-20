@@ -52,8 +52,8 @@
 
         <!-- Paginación -->
         <div class="pagination mt-3">
-          <a [routerLink]="['/gente', prev_page]" class="btn btn-primary me-2">Anterior</a>
-          <a [routerLink]="['/gente', next_page]" class="btn btn-primary">Siguiente</a>
+          <button [routerLink]="['/gente', prev_page]" class="btn btn-primary me-2" [disabled]="page === 1">Anterior</button>
+          <button [routerLink]="['/gente', next_page]" class="btn btn-primary" [disabled]="page === pages">Siguiente</button>
         </div>
       </div>
     </div>

@@ -13,6 +13,8 @@ import { Followed } from './components/followed/followed';
 
 import { messagesRoutes } from './messages/components/messages-routing';
 
+import { UserGuard } from './service/user.guard';
+
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms'; 
 import { provideHttpClient } from '@angular/common/http'; 
@@ -24,13 +26,13 @@ export const routes: Routes = [
   { path: 'login', component: Login},
   { path: 'register', component: Register},
   { path: 'home', component: Home },
-  { path: 'mis-datos', component: UserEdit },
-  { path: 'gente/:page', component: Users},
+  { path: 'mis-datos', component: UserEdit, canActivate:[UserGuard] },
+  { path: 'gente/:page', component: Users, canActivate:[UserGuard] },
   { path: 'gente', redirectTo: 'gente/1', pathMatch: 'full' },
-  { path: 'timeline', component: Timeline },
-  { path: 'profile/:id', component: Profile },
-  { path: 'siguiendo/:id/:page', component: Following},
-  { path: 'seguidores/:id/:page', component: Followed},
+  { path: 'timeline', component: Timeline, canActivate:[UserGuard] },
+  { path: 'profile/:id', component: Profile, canActivate:[UserGuard] },
+  { path: 'siguiendo/:id/:page', component: Following, canActivate:[UserGuard] },
+  { path: 'seguidores/:id/:page', component: Followed, canActivate:[UserGuard] },
   ...messagesRoutes
 ];
 
@@ -43,6 +45,6 @@ export const routes: Routes = [
         Sidebars,
     ],
     exports: [RouterModule],
-    providers: [provideHttpClient()]
+    providers: [provideHttpClient(), UserGuard]
 })
 export class AppRoutes { }
